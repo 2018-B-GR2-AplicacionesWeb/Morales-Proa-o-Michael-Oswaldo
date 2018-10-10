@@ -47,3 +47,10 @@ var adrianJSON={
   ""
 
 };
+
+
+if('adrian'){ thruthy
+    //si
+
+
+}
