@@ -66,13 +66,63 @@ promesa('06-texto.txt')
 
 //TRANSFORMACION DE APPENDFILE A PROMESA
 
-const appendFile =()=>{
+const appendFile = (nombreArchivo,contenido) => {
+    return new Promise(
+        (resolve, reject) => {
+            fs.readFile(
+                nombreArchivo,
+                'utf-8',
+                (error, contenidoLeidoDelArchivo) => {
+                    if (error) {
+                        fs.writeFile(
+                            nombreArchivo,
+                            contenido,
+                            (err) => {
+                                if (err) {
+                                    //callback(undefined, err)
+                                    resolve(err);
+
+                                } else {
+
+                                    reject(contenidoLeidoDelArchivo);
+
+                                }
+                            }
+                        );
+                    } else {
+
+                        fs.writeFile(
+                            nombreArchivo,
+                            contenidoLeidoDelArchivo + contenido,
+                            (err) => {
+                                if (err) {
+                                    resolve(undefined, err);
+                                } else {
+
+                                    reject(contenidoLeidoDelArchivo + contenido)
+                                }
+                            }
+                        )
+                    }
+                }
+            );
+
+        }
+    )
+};
 
 
+appendFile(nombre,'HOLA')
+    .then(
+        (contenido) => {
 
-
-}
-
-
+            return oppendFile('09-texto.txt', 'ADIOS');
+        }
+    )
+    .catch(
+        (error) => {
+            console.log('MAL', error);
+        }
+    );
 
 
