@@ -90,7 +90,6 @@ const appendFile = (nombreArchivo,contenido) => {
                             }
                         );
                     } else {
-
                         fs.writeFile(
                             nombreArchivo,
                             contenidoLeidoDelArchivo + contenido,
