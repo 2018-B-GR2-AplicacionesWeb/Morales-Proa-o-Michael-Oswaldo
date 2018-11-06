@@ -1,4 +1,4 @@
-
+/*
 const rxjs = require('rxjs');
 
 
@@ -15,10 +15,10 @@ numeros$.subscribe(
 },
     complete()=>{
   console.log('Complete')
-},
+}
 
 
 
 
 
-)
+)*/

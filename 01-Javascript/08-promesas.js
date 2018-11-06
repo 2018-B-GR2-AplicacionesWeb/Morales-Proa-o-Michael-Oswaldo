@@ -66,60 +66,61 @@ promesa('06-texto.txt')
 
 //TRANSFORMACION DE APPENDFILE A PROMESA
 
-const appendFile =(
-    nombreArchivo,
-    contenidoArchivo,)=>{
+const appendFile = (nombreArchivo,contenido) => {
     return new Promise(
-        (resolve,reject)=>{
+        (resolve, reject) => {
             fs.readFile(
                 nombreArchivo,
                 'utf-8',
-                (error, contenidoLeido) => {
+                (error, contenidoLeidoDelArchivo) => {
                     if (error) {
-                        reject(error);
+                        fs.writeFile(
+                            nombreArchivo,
+                            contenido,
+                            (err) => {
+                                if (err) {
+                                    //callback(undefined, err)
+                                    resolve(err);
+
+                                } else {
+
+                                    reject(contenidoLeidoDelArchivo);
+
+                                }
+                            }
+                        );
                     } else {
-                        resolve(contenidoLeido);
+
+                        fs.writeFile(
+                            nombreArchivo,
+                            contenidoLeidoDelArchivo + contenido,
+                            (err) => {
+                                if (err) {
+                                    resolve(undefined, err);
+                                } else {
+
+                                    reject(contenidoLeidoDelArchivo + contenido)
+                                }
+                            }
+                        )
                     }
                 }
             );
 
-
-        }
-
-
-
-
-
-    );
-
-
-
-
-};
-
-appendFile('06-texto.txt')
-    .then(
-        (contenido) => {
-            console.log('Ok', contenido);
-            return promesaEscritura(
-                '06-texto.txt',
-                contenido + ' Nuevo Contenido');
-            // Promesa
         }
     )
+};
+
+
+appendFile(nombre,'HOLA')
     .then(
-        (contenidoCompleto) => {
-            console.log(contenidoCompleto);
+        (contenido) => {
+
+            return oppendFile('09-texto.txt', 'ADIOS');
         }
     )
     .catch(
         (error) => {
-            console.log('Mal', error);
-            return promesa(
-
-            )
+            console.log('MAL', error);
         }
     );
-
-
-
