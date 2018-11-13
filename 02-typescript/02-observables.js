@@ -1,8 +1,7 @@
-declare var require:any;
-declare var Promise:any;
+//declare var Promise:any;
 const rxjs = require('rxjs');
 const map = require('rxjs/operators').map;
-const numeros$ = rxjs.of(
+/*const numeros$ = rxjs.of(
     1,
     2,
     3,
@@ -39,7 +38,9 @@ numeros$
             console.log('Complete');
         },
     );
-
+*/
+/*
+const numeros$
 const promesita  = (funciona:boolean)=>{
     return new Promise(
         (resolve,reject)=>{
@@ -66,3 +67,21 @@ promesita$
             console.log('Completado')
         },
     );
+
+const observableConcatenado$ = numeros$
+    .pipe(
+        contact(promesita())
+
+
+    )
+*/
+const numeros$ = rxjs.of(1, 2, 3, 4, 5, 6);
+numeros$
+    .subscribe((ok) => {
+    console.log('en ok ', ok);
+}, (err) => {
+    console.log('en error ', err);
+}, () => {
+    console.log('complete');
+});
+//numeros$();
