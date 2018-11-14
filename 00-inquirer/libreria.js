@@ -1,21 +1,3 @@
-/*const inquirer = require('inquirer');
-inquirer.prompt(['Que desea realizar en la libreria']).then(answers => {
-});
-*/
-
-//inquirer.registerPrompt('directory', require('index'));
-/*
-inquirer.prompt([
-    {
-        type: "directory",
-        name: "path",
-        message: "In what directory would like to perform this action?",
-        basePath: "node_modules"
-    }
-], function( answers ) {
-    console.log( JSON.stringify(answers, null, "  ") );
-});*/
-//const outputs = ['TEST-1', 'TEST-2', 'TEST-3'];
 
 const inquirer = require("inquirer");
 const rxjs = require ("rxjs")
@@ -24,30 +6,49 @@ var output = [];
 var opciones = new Array('Consultar Libro', 'Ingresar Libro', 'Eliminar Libro', 'Actualizar Libro' );
 
 
-const questions= [{
+const menu_preguntas= [{
     type: 'list',
-    name: 'choiceq',
+    name: 'opciones_menu',
     message: '\nBienvenido a la Libreria "Best Books, que desea realizar?"',
     choices: ['Consultar Libro', 'Ingresar Libro', 'Eliminar Libro', 'Actualizar Libro' ]
 },
     {
         type: 'confirm',
-        name: 'confirmq',
+        name: 'confirmar',
         message: 'Desea continuar realizando operaciones en la libreria?"',
         default: true
     }];
+const preguntas_crud= [{
+    type: 'input',
+    name: 'nombre',
+    message: '\nIngrese el nomnre del libro'
 
-function preguntas () {
-    inquirer.prompt(questions).then(answers => {
-        output.push(answers.choiceq);
-        operar(choiceq);
+},
+    {
+        type: 'input',
+        name: 'autor',
+        message: 'ingrese el nombre del autor'
+    }];
 
-        if (answers.confirmq) {
-            preguntas();
-        } else {
-            console.log('\nGracias por venir, Adios!!:', '\neventos realizados en esta seción: ',output.join(', '));
+function menu () {
+    inquirer.prompt(menu_preguntas).then(answers => {
+        if(answers.choiceq==opciones[1]){
+        inquirer.prompt(preguntas_crud).then(answers => {
+
+
+        });
         }
-    });
+        else{
+            console.log('elijio otra opcion')
+        }
+
+
+
+
+
+
+    } );
+
 }
 
 const operacion$ = rxjs.of(opciones)
@@ -55,9 +56,15 @@ const operacion$ = rxjs.of(opciones)
 
 
 
-function operar(opcion,otro){
+
+function ask1 () {
+    inquirer.prompt(qask1)
+    };
+
+
+function operar(opcion){
 if(opcion ===opciones[1] ){
-    appendFilePromesa('libreria_datos',otro)
+    ask1()
 
 }
 
@@ -105,4 +112,4 @@ function appendFilePromesa(nombreArchivo,
     );
 }
 
-preguntas();
+menu();

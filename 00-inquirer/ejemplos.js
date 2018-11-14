@@ -98,3 +98,124 @@ inquirer.prompt(questions).then(answers => {
     console.log('\nOrder receipt:');
     console.log(JSON.stringify(answers, null, '  '));
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function menu_crud() {
+    inquirer
+        .prompt(preguntas_crud)
+        .then((respuestas) => {
+            if (respuestas.crud_op === 'salir') {
+                console.log(respuestas.clave);
+                iniciar();
+            }
+            else {
+                switch (respuestas.crud_op) {
+                    case 'Consultar Tipos Pizzas':
+                        pizzas.forEach((valor) => {
+                            console.log(valor);
+                        });
+                        menu_crud();
+                        break;
+                    case 'Modificar Tipos Pizzas':
+                        inquirer
+                            .prompt(pregunta_actualizar)
+                            .then((respuestas) => {
+                                //buscar y reemplazar
+                                pizzas.forEach((element, index, array) => {
+                                    if (element == String(respuestas.old)) {
+                                        console.log('econtrado');
+                                        array[index] = respuestas.nuevo;
+                                    }
+                                    //console.log(`${element},${respuestas.old}`);
+                                });
+                                let contenido = '';
+                                const pizza$ = rxjs.from(pizzas);
+                                pizza$
+                                    .subscribe((ok) => {
+                                        contenido = contenido + ok + ",";
+                                    }, (error) => {
+                                        console.log("error:", error);
+                                    }, () => {
+                                        // volver a actualizar la base
+                                        AppendFile('DataBase/pizzas', contenido, true)
+                                            .then(() => {
+                                                console.log('contenido actualizado');
+                                                menu_crud();
+                                            });
+                                    });
+                            });
+                        break;
+                    case 'Eliminar Pizzas':
+                        inquirer
+                            .prompt(pregunta_eliminar)
+                            .then((respuestas) => {
+                                //buscar y borrar
+                                pizzas.forEach((element, index, array) => {
+                                    if (element == String(respuestas.borrar)) {
+                                        console.log('econtrado');
+                                        array[index] = '';
+                                    }
+                                    //console.log(`${element},${respuestas.borrar}`);
+                                });
+                                let contenido = '';
+                                const pizza$ = rxjs.from(pizzas);
+                                pizza$
+                                    .subscribe((ok) => {
+                                        if (ok) {
+                                            contenido = contenido + ok + ",";
+                                        }
+                                    }, (error) => {
+                                        console.log("error:", error);
+                                    }, () => {
+                                        // volver a actualizar la base
+                                        AppendFile('DataBase/pizzas', contenido, true)
+                                            .then(() => {
+                                                console.log('contenido actualizado');
+                                                menu_crud();
+                                            });
+                                    });
+                            });
+                        break;
+                    case 'Ingresar Pizza':
+                        inquirer
+                            .prompt(pregunta_insertar)
+                            .then((respuestas) => {
+                                pizzas.push(respuestas.insert);
+                                let contenido = '';
+                                const pizza$ = rxjs.from(pizzas);
+                                pizza$
+                                    .subscribe((ok) => {
+                                        if (ok) {
+                                            contenido = contenido + ok + ",";
+                                        }
+                                    }, (error) => {
+                                        console.log("error:", error);
+                                    }, () => {
+                                        // volver a actualizar la base
+                                        AppendFile('DataBase/pizzas', contenido, true)
+                                            .then(() => {
+                                                console.log('contenido actualizado');
+                                                menu_crud();
+                                            });
+                                    });
+                            });
+                        break;
+                }
+                //menu_crud();
+            }
+        });
+}
