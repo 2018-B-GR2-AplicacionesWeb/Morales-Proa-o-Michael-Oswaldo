@@ -2,6 +2,56 @@ declare var require:any;
 //declare var Promise:any;
 const rxjs = require('rxjs');
 const map = require('rxjs/operators').map;
+const observable_numeros$ = rxjs.of(1,2,3,4,5,6,7,8,9,10);
+//i can´t do this --console.log(observable_numeros$);
+observable_numeros$
+    .pipe(
+    map(
+        (numero)=>{
+            return {numero: numero}
+        }
+    )
+    ).subscribe(
+    (ok)=>{
+        console.log("todo chevere ",ok)
+    },
+(error)=>{
+console.log("salio medio ma papu:",error)
+},
+    ()=>{
+console.log("se finalizo papu")
+    }
+)
+
+
+
+
+const observable2$ = rxjs.of(1,2,3,4,5,6)
+
+
+observable2$
+    .pipe(
+        map(
+
+            (valor)=>{
+                return{valorActual:valor}
+            }
+
+        )
+    ).subscribe(
+
+        (ok) => {
+            console.log(ok)
+        },
+        (error) => {
+            console.log(error)
+        },
+        () => {
+            console.log('well done')
+        }
+)
+
+
 /*const numeros$ = rxjs.of(
     1,
     2,
@@ -76,6 +126,7 @@ const observableConcatenado$ = numeros$
 
     )
 */
+/*
 const numeros$ = rxjs.of(1,2,'f',4,5,6)
 
 numeros$
@@ -94,5 +145,5 @@ numeros$
 
 
 )
-
+*/
 //numeros$();
